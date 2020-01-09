@@ -10,6 +10,7 @@ public class PokerModel {
 	private int pot = 0;
 	private int highestBid = 0;
 	private Deck deck;
+	private Player currentPlayer;
 	private ArrayList<Player> players;
 	private ArrayList<Card> board;
 	
@@ -25,6 +26,7 @@ public class PokerModel {
 		this.players = new ArrayList<Player>();
 		
 		incrementPlayerCounter();
+		this.currentPlayer = players.get(playerCounter);
 		
 		for(int i = 0; i < numPlayers; i++) {
 			players.add(new Player(startingChip));
@@ -36,6 +38,7 @@ public class PokerModel {
 	public int getPlayerCounter() {
 		return playerCounter;
 	}
+	
 	
 	
 	public void decrementPlayerCounter() {
@@ -54,6 +57,31 @@ public class PokerModel {
 			return;
 		}
 		playerCounter += 1;
+	}
+	
+	
+	public void currentPlayerCall() {
+		if(currentPlayer.getBidAmount() + currentPlayer.getChipCount() <= highestBid) {
+			currentPlayer.allIn();
+			return;
+		}
+		
+		currentPlayer.bid(highestBid - currentPlayer.getBidAmount());
+	}
+	
+	
+	public void currentPlayerCheck() {
+		incrementPlayerCounter();
+	}
+	
+	
+	public void currentPlayerBet() {
+		
+	}
+	
+	
+	public void currentPlayerFold() {
+		players.get(playerCounter).fold();
 	}
 	
 	
